@@ -73,7 +73,8 @@ export const startDailyHistoryPost = (): CronJob => new CronJob(
             212
         )
 
-        const imageName = `${month}-${day}.png`;
+        const date = `${month}-${day}`
+        const imageName = `${date}.png`;
         image.write(
             path.join(
                 process.cwd(),
@@ -95,7 +96,7 @@ export const startDailyHistoryPost = (): CronJob => new CronJob(
                 signer_uuid: SIGNER_UUID,
                 embeds: [
                     {
-                         url: `https://wiki-fc.tyhacz.com/${imageName}`
+                         url: `https://wiki-fc.tyhacz.com/frame/${date}`
                     }
                 ]
             },
