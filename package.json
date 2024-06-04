@@ -1,0 +1,21 @@
+{
+  "name": "history-farcaster",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/dotenv-safe": "^8.1.6",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.1",
+    "axios": "^1.7.2",
+    "cron": "^3.1.7",
+    "dotenv-safe": "^9.1.0",
+    "express": "^4.19.2",
+    "jimp": "^0.22.12"
+  }
+}
