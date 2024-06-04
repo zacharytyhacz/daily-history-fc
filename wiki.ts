@@ -10,7 +10,7 @@ import config from './config'
 // figure out how to cast to farcaster on my account
 //
 export const startDailyHistoryPost = (): CronJob => new CronJob(
-    '* * * * * *',
+    '0 0 0 13 * *',
     async () => {
         const { NEYNAR_API_KEY, SIGNER_UUID } = config()
 
