@@ -26,7 +26,10 @@ const startServer = async () => {
     <meta property="og:image" content="${imageUrl}">
     <meta property="fc:frame" content="vNext">
     <meta property="fc:frame:image" content="${imageUrl}">
-    <meta property="fc:frame:image:aspect_ratio" content="1:1"/>
+    <meta property="fc:frame:image:aspect_ratio" content="1:1">
+    <meta name="fc:frame:button:1" content="View Github">
+    <meta name="fc:frame:button:1:action" content="link">
+    <meta name="fc:frame:button:1:target" content="https://github.com/zacharytyhacz/daily-history-fc">
 </head>
 <body>
 bruh
