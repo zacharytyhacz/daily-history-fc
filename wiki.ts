@@ -10,7 +10,7 @@ import config from './config'
 // figure out how to cast to farcaster on my account
 //
 export const startDailyHistoryPost = (): CronJob => new CronJob(
-    '0 0 15 * * *',
+    '0 0 14 * * *',
     async () => {
         const { NEYNAR_API_KEY, SIGNER_UUID } = config()
 
@@ -18,8 +18,20 @@ export const startDailyHistoryPost = (): CronJob => new CronJob(
         const month = today.getMonth() + 1
         const day = today.getDate()
 
-        const wikipediaUrl = `https://api.wikimedia.org/feed/v1/wikipedia/en/onthisday/all/${month}/${day}`;
-        const onThisDayResponse = await axios.get(wikipediaUrl)
+        let tries = 0;
+        let onThisDayResponse = null
+
+        while (!onThisDayResponse) {
+            try {
+                const wikipediaUrl = `https://api.wikimedia.org/feed/v1/wikipedia/en/onthisday/all/${month}/${day}`;
+                onThisDayResponse = await axios.get(wikipediaUrl)
+                break
+            } catch (err) {
+                tries += 1
+                console.error(`Attempt #1 - Wikipedia request failed, trying again in 3 seconds....`)
+                await new Promise((resolve) => setTimeout(resolve, 3000))
+            }
+        }
 
         const randomEvent: { text: string, year: number } = onThisDayResponse.data.events[Math.floor(Math.random() * onThisDayResponse.data.events.length)];
 
