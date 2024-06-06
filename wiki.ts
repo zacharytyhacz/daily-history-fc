@@ -10,15 +10,15 @@ import config from './config'
 // figure out how to cast to farcaster on my account
 //
 export const startDailyHistoryPost = (): CronJob => new CronJob(
-    '0 0 12 * * *',
+    '0 0 15 * * *',
     async () => {
         const { NEYNAR_API_KEY, SIGNER_UUID } = config()
 
         const today = new Date();
-        const month = String(today.getMonth() + 1).padStart(2,'0');
-        const day = String(today.getDate()).padStart(2,'0');
-        const wikipediaUrl = `https://api.wikimedia.org/feed/v1/wikipedia/en/onthisday/all/${month}/${day}`;
+        const month = today.getMonth() + 1
+        const day = today.getDate()
 
+        const wikipediaUrl = `https://api.wikimedia.org/feed/v1/wikipedia/en/onthisday/all/${month}/${day}`;
         const onThisDayResponse = await axios.get(wikipediaUrl)
 
         const randomEvent: { text: string, year: number } = onThisDayResponse.data.events[Math.floor(Math.random() * onThisDayResponse.data.events.length)];
@@ -73,7 +73,9 @@ export const startDailyHistoryPost = (): CronJob => new CronJob(
             212
         )
 
-        const date = `${month}-${day}`
+        const formattedMonth = month.toString().padStart(2,'0');
+        const formattedDay = day.toString().padStart(2,'0');
+        const date = `${formattedMonth}-${formattedDay}`
         const imageName = `${date}.png`;
         image.write(
             path.join(
