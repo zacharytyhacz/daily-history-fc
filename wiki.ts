@@ -18,10 +18,35 @@ export const startDailyHistoryPost = (): CronJob => new CronJob(
         const month = today.getMonth() + 1
         const day = today.getDate()
 
-        const wikipediaUrl = `https://api.wikimedia.org/feed/v1/wikipedia/en/onthisday/all/${month}/${day}`;
-        const onThisDayResponse = await axios.get(wikipediaUrl)
+        let tries = 0;
+        let onThisDayResponse: {
+            events: Array<{
+                text: string
+                year: number
+            }>
+        }|null = null
 
-        const randomEvent: { text: string, year: number } = onThisDayResponse.data.events[Math.floor(Math.random() * onThisDayResponse.data.events.length)];
+        while (!onThisDayResponse) {
+            try {
+                const wikipediaUrl = `https://api.wikimedia.org/feed/v1/wikipedia/en/onthisday/all/${month}/${day}`;
+                const res = await axios.get(wikipediaUrl)
+
+                if (res.data && res.data.events) {
+                    onThisDayResponse = res.data
+                    break
+                }
+            } catch (err) {
+                tries += 1
+                console.error(`Attempt #1 - Wikipedia request failed, trying again in 3 seconds....`)
+                await new Promise((resolve) => setTimeout(resolve, 3000))
+            }
+        }
+
+        if (!onThisDayResponse) {
+            return
+        }
+
+        const randomEvent: { text: string, year: number } = onThisDayResponse.events[Math.floor(Math.random() * onThisDayResponse.events.length)];
 
         const jacquard70 = await Jimp.loadFont(
             path.join(
