@@ -48,17 +48,17 @@ export const startDailyHistoryPost = (): CronJob => new CronJob(
 
         const randomEvent: { text: string, year: number } = onThisDayResponse.events[Math.floor(Math.random() * onThisDayResponse.events.length)];
 
-        const jacquard70 = await Jimp.loadFont(
+        const jacquard100 = await Jimp.loadFont(
             path.join(
                 process.cwd(),
-                'fonts/jacquard70.fnt'
+                'fonts/jacquard100.fnt'
             )
         )
 
-        const jacquard24 = await Jimp.loadFont(
+        const jacquard50 = await Jimp.loadFont(
             path.join(
                 process.cwd(),
-                'fonts/jacquard24.fnt'
+                'fonts/jacquard50.fnt'
             )
         )
 
@@ -73,29 +73,29 @@ export const startDailyHistoryPost = (): CronJob => new CronJob(
         // get month name
         const monthName = today.toLocaleString('default', { month: 'long' });
         image.print(
-            jacquard70,
-            28,
-            28,
+            jacquard100,
+            210,
+            160,
             {
                 text: `${monthName} ${day}`,
                 alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT,
                 alignmentY: Jimp.VERTICAL_ALIGN_TOP
             },
-            435,
-            106
+            600,
+            100
         )
 
         image.print(
-            jacquard24,
-            28,
-            162,
+            jacquard50,
+            210,
+            310,
             {
                 text: `On this day in ${randomEvent.year}, ${randomEvent.text}`,
                 alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT,
                 alignmentY: Jimp.VERTICAL_ALIGN_TOP
             },
-            435,
-            212
+            604,
+            522
         )
 
         const formattedMonth = month.toString().padStart(2,'0');
